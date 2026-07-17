@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ужик — аркада</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="arcade">
+    <h1>Ужик</h1>
+
+    <section class="game-panel">
+      <div class="hud">
+        <label for="nickname">Ник (3–12, латиница/цифры)</label>
+        <input id="nickname" type="text" minlength="3" maxlength="12" pattern="[A-Za-z0-9]{3,12}" value="Player1" />
+        <button id="start-btn" type="button">Начать игру</button>
+        <span class="score-box">Счёт: <span id="score">0</span></span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="game-canvas"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-message">Введи ник и нажми «Начать игру». Управление — стрелки или WASD.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard">
+      <h2>Таблица лидеров</h2>
+      <ol id="leaderboard-list"></ol>
+    </section>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

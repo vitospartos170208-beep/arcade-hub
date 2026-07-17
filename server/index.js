@@ -19,6 +19,8 @@ app.use('/api/score', scoreLimiter, scoreRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 
 app.use('/games/snake', express.static(path.join(__dirname, '../games/snake')));
+app.use('/bizcard', express.static(path.join(__dirname, '../bizcard')));
+app.use('/landing', express.static(path.join(__dirname, '../landing')));
 app.get('/', (req, res) => res.redirect('/games/snake/'));
 
 const port = process.env.PORT || 3000;

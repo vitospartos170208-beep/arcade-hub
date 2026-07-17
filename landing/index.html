@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ретро-Аркада — играй без регистрации</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f0c;
+      --panel: #131a15;
+      --accent: #7ee787;
+      --text: #e6f1e9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+    }
+    header {
+      text-align: center;
+      padding: 4rem 1.5rem 3rem;
+    }
+    header h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+    header p {
+      max-width: 480px;
+      margin: 0 auto;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 1.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.75rem 1.75rem;
+      border-radius: 999px;
+    }
+    .features {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .feature {
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .feature h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+    .feature p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      opacity: 0.6;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ретро-Аркада</h1>
+    <p>Оригинальные браузерные игры в духе аркадных автоматов XX века.
+       Без регистрации, без пароля — введи ник только когда захочешь
+       попасть в таблицу лидеров.</p>
+    <a class="cta" href="/games/snake/">Играть в «Ужик» сейчас</a>
+  </header>
+
+  <section class="features">
+    <div class="feature">
+      <h2>Мгновенный старт</h2>
+      <p>Никаких форм и e-mail. Открыл — играешь.</p>
+    </div>
+    <div class="feature">
+      <h2>Честный лидерборд</h2>
+      <p>Сервер сам проверяет правдоподобность счёта — накрутить не получится.</p>
+    </div>
+    <div class="feature">
+      <h2>Только оригинал</h2>
+      <p>Свои игры, своя графика — никаких чужих спрайтов и брендов.</p>
+    </div>
+  </section>
+
+  <footer>Ретро-Аркада — учебный проект</footer>
+</body>
+</html>

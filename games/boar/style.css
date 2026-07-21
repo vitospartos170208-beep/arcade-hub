@@ -1,9 +1,9 @@
 :root {
   color-scheme: dark;
-  --bg: #0b0f0c;
-  --panel: #131a15;
-  --accent: #7ee787;
-  --text: #e6f1e9;
+  --bg: #15101f;
+  --panel: #211a2f;
+  --accent: #a67ce8;
+  --text: #efe6f7;
   --danger: #e8664c;
 }
 
@@ -14,12 +14,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  /* Еле заметная сетка вторит игровому полю змейки, мягкое свечение сверху
-     не даёт фону выглядеть плоским. Только градиенты — никаких картинок. */
   background:
-    radial-gradient(circle at 50% -10%, rgba(126, 231, 135, 0.12), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
+    radial-gradient(circle at 50% -10%, rgba(166, 124, 232, 0.12), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(166, 124, 232, 0.04) 0 2px, transparent 2px 26px),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -77,52 +74,68 @@ h1 {
   overflow: hidden;
 }
 
-.bg-food {
+.bg-leaf {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  background: var(--danger);
-  border-radius: 3px;
+  width: 16px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 60% 0 60% 0;
   opacity: 0;
-  animation: bg-food-fade ease-in-out infinite;
+  animation: bg-decor-fade ease-in-out infinite;
 }
 
-.bg-food-1 {
-  top: 14%;
-  left: 20%;
-  animation-duration: 3.4s;
+.bg-leaf-1 {
+  top: 16%;
+  left: 22%;
+  animation-duration: 3.6s;
 }
 
-.bg-food-2 {
-  top: 68%;
+.bg-leaf-2 {
+  top: 66%;
   left: 78%;
-  animation-duration: 4.6s;
-  animation-delay: 1.4s;
+  animation-duration: 4.5s;
+  animation-delay: 1.2s;
 }
 
-.bg-food-3 {
-  top: 42%;
-  left: 8%;
+.bg-leaf-3 {
+  top: 40%;
+  left: 88%;
   animation-duration: 5s;
-  animation-delay: 2.6s;
+  animation-delay: 2.3s;
 }
 
-@keyframes bg-food-fade {
+@keyframes bg-decor-fade {
   0%, 100% {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.6) rotate(0deg);
   }
   50% {
-    opacity: 0.4;
-    transform: scale(1);
+    opacity: 0.5;
+    transform: scale(1) rotate(20deg);
   }
 }
 
 .hud {
   display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hud-row {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.hud-row:first-child {
+  justify-content: space-between;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .hud label {
@@ -131,12 +144,16 @@ h1 {
 }
 
 .hud input {
-  background: #0b0f0c;
-  border: 1px solid #274430;
+  background: #15101f;
+  border: 1px solid #33254a;
   color: var(--text);
   border-radius: 6px;
   padding: 0.35rem 0.5rem;
   width: 8rem;
+}
+
+#level-indicator {
+  font-variant-numeric: tabular-nums;
 }
 
 .hud button {
@@ -146,6 +163,7 @@ h1 {
   padding: 0.45rem 1rem;
   font-weight: 600;
   cursor: pointer;
+  color: #15101f;
 }
 
 .hud button:disabled {
@@ -153,8 +171,13 @@ h1 {
   cursor: default;
 }
 
-.score-box {
+.moves-box {
   margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.score-box {
   font-variant-numeric: tabular-nums;
 }
 
@@ -164,15 +187,16 @@ h1 {
 }
 
 #game-canvas {
-  background: #0d1b12;
+  background: #15101f;
   border-radius: 8px;
   display: block;
+  touch-action: none;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(11, 15, 12, 0.85);
+  background: rgba(21, 16, 31, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,6 +211,53 @@ h1 {
 
 #overlay-message {
   white-space: pre-line;
+}
+
+.touch-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(3, 2.6rem);
+  grid-template-rows: repeat(2, 2.6rem);
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.dpad-up {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dpad-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dpad-down {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dpad-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.dpad-btn {
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  background: rgba(166, 124, 232, 0.15);
+  color: var(--accent);
+  font-size: 1rem;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.dpad-btn:active {
+  background: rgba(166, 124, 232, 0.35);
 }
 
 .leaderboard {

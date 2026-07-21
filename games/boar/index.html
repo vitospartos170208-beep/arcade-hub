@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кабан — аркада</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/core/lossFlash.css" />
+</head>
+<body>
+  <div class="bg-decor" aria-hidden="true">
+    <span class="bg-leaf bg-leaf-1"></span>
+    <span class="bg-leaf bg-leaf-2"></span>
+    <span class="bg-leaf bg-leaf-3"></span>
+  </div>
+
+  <main class="arcade">
+    <a class="back-link" href="/">&larr; все игры</a>
+    <h1>Кабан</h1>
+
+    <section class="game-panel">
+      <div class="hud">
+        <div class="hud-row">
+          <div class="field">
+            <label for="nickname">Ник (3–12, латиница/цифры)</label>
+            <input id="nickname" type="text" minlength="3" maxlength="12" pattern="[A-Za-z0-9]{3,12}" value="Player1" />
+          </div>
+          <div class="field">
+            <label>Уровень</label>
+            <span id="level-indicator">1 / 8</span>
+          </div>
+        </div>
+        <div class="hud-row">
+          <button id="start-btn" type="button">Начать игру</button>
+          <button id="restart-btn" type="button" disabled>Заново уровень</button>
+          <span class="moves-box">Ходы: <span id="moves">0</span></span>
+          <span class="score-box">Счёт: <span id="score">0</span></span>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="game-canvas"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-message">Введи ник и нажми «Начать игру».
+Стрелки или WASD — двигаться и толкать ящики на отмеченные клетки.
+Все ящики на местах — уровень пройден.</p>
+        </div>
+        <div class="touch-controls" aria-hidden="true">
+          <button type="button" class="dpad-btn dpad-up" id="move-up">▲</button>
+          <button type="button" class="dpad-btn dpad-left" id="move-left">◀</button>
+          <button type="button" class="dpad-btn dpad-right" id="move-right">▶</button>
+          <button type="button" class="dpad-btn dpad-down" id="move-down">▼</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard">
+      <button id="leaderboard-toggle" class="leaderboard-toggle" type="button">Таблица лидеров ▾</button>
+      <div id="leaderboard-panel" class="leaderboard-panel">
+        <ol id="leaderboard-list"></ol>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

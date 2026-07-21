@@ -1,0 +1,169 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0d11;
+  --panel: #151922;
+  --text: #e9edf2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+  overflow-x: hidden;
+}
+
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bg-blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35vmax;
+  height: 35vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(var(--blob-color), 0.2) 0%,
+    rgba(var(--blob-color), 0.09) 45%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  will-change: transform;
+}
+
+.hub {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+h1 {
+  letter-spacing: 0.25em;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  opacity: 0.7;
+  text-align: center;
+  max-width: 40ch;
+}
+
+.game-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.game-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.game-card:hover {
+  transform: translateY(-2px);
+}
+
+.game-card.snake {
+  border-color: #274430;
+}
+
+.game-card.snake:hover {
+  border-color: #7ee787;
+}
+
+.game-card.mole {
+  border-color: #4a3a1e;
+}
+
+.game-card.mole:hover {
+  border-color: #caa24a;
+}
+
+.game-card.bug {
+  border-color: #1e3350;
+}
+
+.game-card.bug:hover {
+  border-color: #5ec8f2;
+}
+
+.game-card.boar {
+  border-color: #33254a;
+}
+
+.game-card.boar:hover {
+  border-color: #a67ce8;
+}
+
+.game-card.hamster {
+  border-color: #4a2636;
+}
+
+.game-card.hamster:hover {
+  border-color: #e8628f;
+}
+
+/* Анимация — заливка всей карточки, но видна только при наведении мышью
+   или нажатии на телефоне (см. cardPreviews.js), а не отдельным окошком. */
+.card-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.game-card.preview-active .card-preview {
+  opacity: 0.5;
+}
+
+.game-title,
+.game-desc {
+  position: relative;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}
+
+.game-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.game-desc {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}

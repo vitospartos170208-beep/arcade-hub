@@ -18,10 +18,15 @@ app.use('/api/session', sessionLimiter, sessionRoutes);
 app.use('/api/score', scoreLimiter, scoreRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 
+app.use('/core', express.static(path.join(__dirname, '../core')));
 app.use('/games/snake', express.static(path.join(__dirname, '../games/snake')));
+app.use('/games/mole', express.static(path.join(__dirname, '../games/mole')));
+app.use('/games/bug', express.static(path.join(__dirname, '../games/bug')));
+app.use('/games/boar', express.static(path.join(__dirname, '../games/boar')));
+app.use('/games/hamster', express.static(path.join(__dirname, '../games/hamster')));
 app.use('/bizcard', express.static(path.join(__dirname, '../bizcard')));
 app.use('/landing', express.static(path.join(__dirname, '../landing')));
-app.get('/', (req, res) => res.redirect('/games/snake/'));
+app.use('/', express.static(path.join(__dirname, '../hub')));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

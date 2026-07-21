@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ретро-Аркада</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Цвет каждого пятна — акцент соответствующей игры. Для новой игры
+       достаточно добавить ещё один .bg-blob с её цветом. -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="bg-blob" style="--blob-color: 126, 231, 135;"></div>
+    <div class="bg-blob" style="--blob-color: 202, 162, 74;"></div>
+    <div class="bg-blob" style="--blob-color: 94, 198, 242;"></div>
+    <div class="bg-blob" style="--blob-color: 166, 124, 232;"></div>
+    <div class="bg-blob" style="--blob-color: 232, 98, 143;"></div>
+  </div>
+
+  <main class="hub">
+    <h1>Ретро-Аркада</h1>
+    <p class="subtitle">Оригинальные мини-игры без регистрации — ник и рекорд, как на аркадном автомате.</p>
+
+    <div class="game-grid">
+      <a class="game-card snake" href="/games/snake/">
+        <canvas class="card-preview" data-preview="snake" width="220" height="120"></canvas>
+        <span class="game-title">Ужик</span>
+        <span class="game-desc">Классическая змейка — расти, не врежься.</span>
+      </a>
+
+      <a class="game-card mole" href="/games/mole/">
+        <canvas class="card-preview" data-preview="mole" width="220" height="120"></canvas>
+        <span class="game-title">Крот</span>
+        <span class="game-desc">Открывай клетки, обходи мины, найди всё поле.</span>
+      </a>
+
+      <a class="game-card bug" href="/games/bug/">
+        <canvas class="card-preview" data-preview="bug" width="220" height="120"></canvas>
+        <span class="game-title">Жук</span>
+        <span class="game-desc">Гравитация, тяга и топливо — посади мягко.</span>
+      </a>
+
+      <a class="game-card boar" href="/games/boar/">
+        <canvas class="card-preview" data-preview="boar" width="220" height="120"></canvas>
+        <span class="game-title">Кабан</span>
+        <span class="game-desc">Толкай ящики на отмеченные клетки — 4 уровня.</span>
+      </a>
+
+      <a class="game-card hamster" href="/games/hamster/">
+        <canvas class="card-preview" data-preview="hamster" width="220" height="120"></canvas>
+        <span class="game-title">Хомяк</span>
+        <span class="game-desc">Классический пасьянс — собери все масти.</span>
+      </a>
+    </div>
+  </main>
+
+  <script src="background.js" defer></script>
+  <script src="cardPreviews.js" defer></script>
+</body>
+</html>

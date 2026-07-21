@@ -1,0 +1,37 @@
+/* Общая анимация проигрыша для всех игр. Полагается на то, что у каждой
+   игры уже есть переменная --danger и элементы .game-panel/.hud button —
+   сами цвета остаются в теме игры, тут только механика вспышки. */
+
+.loss-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--danger);
+  opacity: 0;
+  transition: opacity 2.2s ease-out;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.game-panel {
+  transition: border-color 2.2s ease-out;
+}
+
+.hud button {
+  transition: background-color 2.2s ease-out, color 2.2s ease-out;
+}
+
+body.flash-loss .loss-overlay {
+  opacity: 0.28;
+  transition: none;
+}
+
+body.flash-loss .game-panel {
+  border-color: var(--danger);
+  transition: none;
+}
+
+body.flash-loss .hud button {
+  background: var(--danger);
+  color: #fff;
+  transition: none;
+}

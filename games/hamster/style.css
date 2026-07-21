@@ -1,9 +1,9 @@
 :root {
   color-scheme: dark;
-  --bg: #0b0f0c;
-  --panel: #131a15;
-  --accent: #7ee787;
-  --text: #e6f1e9;
+  --bg: #1c0f16;
+  --panel: #2c1a22;
+  --accent: #e8628f;
+  --text: #f5e6ec;
   --danger: #e8664c;
 }
 
@@ -14,12 +14,8 @@
 body {
   margin: 0;
   min-height: 100vh;
-  /* Еле заметная сетка вторит игровому полю змейки, мягкое свечение сверху
-     не даёт фону выглядеть плоским. Только градиенты — никаких картинок. */
   background:
-    radial-gradient(circle at 50% -10%, rgba(126, 231, 135, 0.12), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
+    radial-gradient(circle at 50% -10%, rgba(232, 98, 143, 0.12), transparent 60%),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -77,52 +73,73 @@ h1 {
   overflow: hidden;
 }
 
-.bg-food {
+.bg-suit {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  background: var(--danger);
-  border-radius: 3px;
+  font-size: 2rem;
+  color: var(--accent);
   opacity: 0;
-  animation: bg-food-fade ease-in-out infinite;
+  animation: bg-decor-fade ease-in-out infinite;
 }
 
-.bg-food-1 {
+.bg-suit-1 {
   top: 14%;
   left: 20%;
-  animation-duration: 3.4s;
+  animation-duration: 3.6s;
 }
 
-.bg-food-2 {
-  top: 68%;
-  left: 78%;
-  animation-duration: 4.6s;
-  animation-delay: 1.4s;
+.bg-suit-2 {
+  top: 66%;
+  left: 76%;
+  animation-duration: 4.5s;
+  animation-delay: 1.1s;
 }
 
-.bg-food-3 {
-  top: 42%;
-  left: 8%;
+.bg-suit-3 {
+  top: 40%;
+  left: 88%;
   animation-duration: 5s;
-  animation-delay: 2.6s;
+  animation-delay: 2.2s;
 }
 
-@keyframes bg-food-fade {
+.bg-suit-4 {
+  top: 80%;
+  left: 10%;
+  animation-duration: 4.1s;
+  animation-delay: 0.6s;
+}
+
+@keyframes bg-decor-fade {
   0%, 100% {
     opacity: 0;
     transform: scale(0.6);
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.3;
     transform: scale(1);
   }
 }
 
 .hud {
   display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hud-row {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.hud-row:first-child {
+  justify-content: space-between;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .hud label {
@@ -131,8 +148,8 @@ h1 {
 }
 
 .hud input {
-  background: #0b0f0c;
-  border: 1px solid #274430;
+  background: #1c0f16;
+  border: 1px solid #4a2636;
   color: var(--text);
   border-radius: 6px;
   padding: 0.35rem 0.5rem;
@@ -146,6 +163,7 @@ h1 {
   padding: 0.45rem 1rem;
   font-weight: 600;
   cursor: pointer;
+  color: #1c0f16;
 }
 
 .hud button:disabled {
@@ -153,40 +171,115 @@ h1 {
   cursor: default;
 }
 
-.score-box {
+.moves-box {
   margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.score-box {
   font-variant-numeric: tabular-nums;
 }
 
-.canvas-wrap {
-  position: relative;
-  align-self: center;
-}
-
-#game-canvas {
-  background: #0d1b12;
+#status-message {
+  white-space: pre-line;
+  margin: 0;
+  background: #1c0f16;
   border-radius: 8px;
-  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(11, 15, 12, 0.85);
+.board {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.top-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.spacer {
+  flex: 1;
+  min-width: 0.5rem;
+}
+
+.tableau {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pile,
+.column {
+  width: 52px;
+  min-height: 72px;
+  position: relative;
+  border: 1px dashed #4a2636;
+  border-radius: 6px;
+}
+
+.pile.foundation {
+  border-color: var(--accent);
+  cursor: pointer;
+}
+
+.pile.stock {
+  cursor: pointer;
+}
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 52px;
+  height: 72px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  border-radius: 8px;
-  padding: 1rem;
+  gap: 0.15rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+  background: var(--text);
+  color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.overlay[hidden] {
-  display: none;
+.card.red {
+  color: #c0392b;
 }
 
-#overlay-message {
-  white-space: pre-line;
+.card.black {
+  color: #1a1a1a;
+}
+
+.card.facedown {
+  background: repeating-linear-gradient(45deg, var(--accent) 0 4px, #1c0f16 4px 8px);
+  cursor: default;
+}
+
+.card.empty-slot {
+  position: static;
+  width: 100%;
+  height: 100%;
+  background: none;
+  box-shadow: none;
+  color: var(--accent);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.card.selected {
+  outline: 3px solid #7ee787;
+  outline-offset: 1px;
 }
 
 .leaderboard {

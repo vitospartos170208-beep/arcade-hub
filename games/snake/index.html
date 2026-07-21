@@ -5,9 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ужик — аркада</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/core/lossFlash.css" />
 </head>
 <body>
+  <div class="loss-overlay" aria-hidden="true"></div>
+  <div class="bg-decor" aria-hidden="true">
+    <span class="bg-food bg-food-1"></span>
+    <span class="bg-food bg-food-2"></span>
+    <span class="bg-food bg-food-3"></span>
+  </div>
+
   <main class="arcade">
+    <a class="back-link" href="/">&larr; все игры</a>
     <h1>Ужик</h1>
 
     <section class="game-panel">
@@ -21,14 +30,17 @@
       <div class="canvas-wrap">
         <canvas id="game-canvas"></canvas>
         <div id="overlay" class="overlay">
-          <p id="overlay-message">Введи ник и нажми «Начать игру». Управление — стрелки или WASD.</p>
+          <p id="overlay-message">Введи ник и нажми «Начать игру».
+Управление — стрелки или WASD.</p>
         </div>
       </div>
     </section>
 
     <section class="leaderboard">
-      <h2>Таблица лидеров</h2>
-      <ol id="leaderboard-list"></ol>
+      <button id="leaderboard-toggle" class="leaderboard-toggle" type="button">Таблица лидеров ▾</button>
+      <div id="leaderboard-panel" class="leaderboard-panel">
+        <ol id="leaderboard-list"></ol>
+      </div>
     </section>
   </main>
 

@@ -1,9 +1,9 @@
 :root {
   color-scheme: dark;
-  --bg: #0b0f0c;
-  --panel: #131a15;
-  --accent: #7ee787;
-  --text: #e6f1e9;
+  --bg: #150f0a;
+  --panel: #201709;
+  --accent: #caa24a;
+  --text: #f1e6d9;
   --danger: #e8664c;
 }
 
@@ -14,12 +14,11 @@
 body {
   margin: 0;
   min-height: 100vh;
-  /* Еле заметная сетка вторит игровому полю змейки, мягкое свечение сверху
-     не даёт фону выглядеть плоским. Только градиенты — никаких картинок. */
+  /* Точечная текстура читается как грунт/гравий, свечение сверху — как
+     свет из шахты. Только градиенты — никаких картинок. */
   background:
-    radial-gradient(circle at 50% -10%, rgba(126, 231, 135, 0.12), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(126, 231, 135, 0.05) 0 1px, transparent 1px 28px),
+    radial-gradient(circle at 50% -10%, rgba(202, 162, 74, 0.14), transparent 60%),
+    radial-gradient(rgba(202, 162, 74, 0.10) 1px, transparent 1px) 0 0 / 18px 18px,
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -77,37 +76,78 @@ h1 {
   overflow: hidden;
 }
 
-.bg-food {
+.bg-num {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  background: var(--danger);
-  border-radius: 3px;
+  font: bold 26px system-ui, sans-serif;
+  color: var(--num-color);
   opacity: 0;
-  animation: bg-food-fade ease-in-out infinite;
+  animation: bg-decor-fade ease-in-out infinite;
 }
 
-.bg-food-1 {
-  top: 14%;
-  left: 20%;
-  animation-duration: 3.4s;
+.bg-num-1 {
+  top: 16%;
+  left: 22%;
+  animation-duration: 3.5s;
 }
 
-.bg-food-2 {
-  top: 68%;
-  left: 78%;
-  animation-duration: 4.6s;
-  animation-delay: 1.4s;
+.bg-num-2 {
+  top: 64%;
+  left: 74%;
+  animation-duration: 4.4s;
+  animation-delay: 1.2s;
 }
 
-.bg-food-3 {
-  top: 42%;
-  left: 8%;
+.bg-num-3 {
+  top: 36%;
+  left: 84%;
   animation-duration: 5s;
-  animation-delay: 2.6s;
+  animation-delay: 2.4s;
 }
 
-@keyframes bg-food-fade {
+.bg-flag {
+  position: absolute;
+  width: 16px;
+  height: 18px;
+  opacity: 0;
+  animation: bg-decor-fade ease-in-out infinite;
+}
+
+.bg-flag::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--text);
+}
+
+.bg-flag::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 12px;
+  height: 9px;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 25%, 0 50%);
+}
+
+.bg-flag-1 {
+  top: 78%;
+  left: 14%;
+  animation-duration: 3.8s;
+  animation-delay: 0.6s;
+}
+
+.bg-flag-2 {
+  top: 24%;
+  left: 60%;
+  animation-duration: 4.6s;
+  animation-delay: 1.8s;
+}
+
+@keyframes bg-decor-fade {
   0%, 100% {
     opacity: 0;
     transform: scale(0.6);
@@ -120,9 +160,25 @@ h1 {
 
 .hud {
   display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.hud-row {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.hud-row:first-child {
+  justify-content: space-between;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .hud label {
@@ -130,12 +186,16 @@ h1 {
   opacity: 0.8;
 }
 
-.hud input {
-  background: #0b0f0c;
-  border: 1px solid #274430;
+.hud input,
+.hud select {
+  background: #150f0a;
+  border: 1px solid #4a3a1e;
   color: var(--text);
   border-radius: 6px;
   padding: 0.35rem 0.5rem;
+}
+
+.hud input {
   width: 8rem;
 }
 
@@ -146,9 +206,11 @@ h1 {
   padding: 0.45rem 1rem;
   font-weight: 600;
   cursor: pointer;
+  color: #150f0a;
 }
 
-.hud button:disabled {
+.hud button:disabled,
+.hud select:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -158,21 +220,34 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
+.mines-box,
+.timer-box,
+.multiplier-box {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.multiplier-box {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .canvas-wrap {
   position: relative;
   align-self: center;
 }
 
 #game-canvas {
-  background: #0d1b12;
+  background: #150f0a;
   border-radius: 8px;
   display: block;
+  touch-action: none;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(11, 15, 12, 0.85);
+  background: rgba(21, 15, 10, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;

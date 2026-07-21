@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Крот — аркада</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/core/lossFlash.css" />
+</head>
+<body>
+  <div class="loss-overlay" aria-hidden="true"></div>
+  <div class="bg-decor" aria-hidden="true">
+    <span class="bg-num bg-num-1" style="--num-color: #7ee7f5;">1</span>
+    <span class="bg-num bg-num-2" style="--num-color: #7ee787;">2</span>
+    <span class="bg-num bg-num-3" style="--num-color: #e8664c;">3</span>
+    <span class="bg-flag bg-flag-1"></span>
+    <span class="bg-flag bg-flag-2"></span>
+  </div>
+
+  <main class="arcade">
+    <a class="back-link" href="/">&larr; все игры</a>
+    <h1>Крот</h1>
+
+    <section class="game-panel">
+      <div class="hud">
+        <div class="hud-row">
+          <div class="field">
+            <label for="nickname">Ник (3–12, латиница/цифры)</label>
+            <input id="nickname" type="text" minlength="3" maxlength="12" pattern="[A-Za-z0-9]{3,12}" value="Player1" />
+          </div>
+          <div class="field">
+            <label for="difficulty">Сложность</label>
+            <select id="difficulty">
+              <option value="easy">Лёгкая</option>
+              <option value="medium" selected>Средняя</option>
+              <option value="hard">Сложная</option>
+            </select>
+          </div>
+        </div>
+        <div class="hud-row">
+          <button id="start-btn" type="button">Начать игру</button>
+          <span class="score-box">Счёт: <span id="score">0</span></span>
+          <span class="mines-box">Мин осталось: <span id="mines-left">14</span></span>
+          <span class="timer-box">Время: <span id="timer">0:00</span></span>
+          <span class="multiplier-box">×<span id="multiplier">3.00</span></span>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="game-canvas"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-message">Введи ник и нажми «Начать игру».
+Тап или клик — открыть клетку, долгое нажатие или правая кнопка мыши — поставить флажок.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard">
+      <button id="leaderboard-toggle" class="leaderboard-toggle" type="button">Таблица лидеров ▾</button>
+      <div id="leaderboard-panel" class="leaderboard-panel">
+        <ol id="leaderboard-list"></ol>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

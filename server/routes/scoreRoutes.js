@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../db/db');
+const { GAMES } = require('../games');
 
 const router = express.Router();
 
@@ -14,20 +15,16 @@ function isBannedNickname(nickname) {
   return BANNED_SUBSTRINGS.some((word) => lower.includes(word));
 }
 
-// Верхняя граница правдоподобности для змейки: даже если бы еда появлялась
-// на соседней клетке при каждом ходе (нереалистично, но это безопасный запас
-// сверху), очков за секунду больше этого получить нельзя.
-const FASTEST_TICK_MS = 150;
-const POINTS_PER_FOOD = 10;
-
-const getSession = db.prepare('SELECT started_at, used FROM game_sessions WHERE id = ?');
+const getSession = db.prepare(
+  'SELECT game, difficulty, started_at, used FROM game_sessions WHERE id = ?'
+);
 const markSessionUsed = db.prepare('UPDATE game_sessions SET used = 1 WHERE id = ?');
 const insertScore = db.prepare(
-  'INSERT INTO scores (nickname, score, session_id) VALUES (?, ?, ?)'
+  'INSERT INTO scores (game, difficulty, nickname, score, session_id) VALUES (?, ?, ?, ?, ?)'
 );
 
 router.post('/', (req, res) => {
-  const { sessionId, nickname, score } = req.body ?? {};
+  const { sessionId, nickname, score, won, ...extra } = req.body ?? {};
 
   if (typeof sessionId !== 'string') {
     return res.status(400).json({ error: 'sessionId обязателен' });
@@ -50,17 +47,26 @@ router.post('/', (req, res) => {
     return res.status(409).json({ error: 'счёт по этой сессии уже отправлен' });
   }
 
+  // Игра (и сложность) берутся из сессии (серверная запись), а не из тела
+  // запроса — иначе клиент мог бы прислать score от сложного поля под видом
+  // сессии лёгкого и обойти анти-чит проверку с более мягкими правилами.
   const durationMs = Date.now() - session.started_at;
-  const maxPlausibleScore = Math.floor(durationMs / FASTEST_TICK_MS) * POINTS_PER_FOOD;
+  const isPlausible = GAMES[session.game].isScorePlausible(
+    score,
+    durationMs,
+    session.difficulty,
+    won === true,
+    extra
+  );
 
-  if (score > maxPlausibleScore) {
+  if (!isPlausible) {
     return res.status(400).json({ error: 'счёт превышает возможный для длительности сессии' });
   }
 
   db.exec('BEGIN');
   try {
     markSessionUsed.run(sessionId);
-    insertScore.run(nickname, score, sessionId);
+    insertScore.run(session.game, session.difficulty, nickname, score, sessionId);
     db.exec('COMMIT');
   } catch (err) {
     db.exec('ROLLBACK');

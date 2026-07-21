@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Жук — аркада</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/core/lossFlash.css" />
+</head>
+<body>
+  <div class="loss-overlay" aria-hidden="true"></div>
+  <div class="bg-decor" aria-hidden="true">
+    <span class="bg-star bg-star-1"></span>
+    <span class="bg-star bg-star-2"></span>
+    <span class="bg-star bg-star-3"></span>
+    <span class="bg-star bg-star-4"></span>
+  </div>
+
+  <main class="arcade">
+    <a class="back-link" href="/">&larr; все игры</a>
+    <h1>Жук</h1>
+
+    <section class="game-panel">
+      <div class="hud">
+        <div class="hud-row">
+          <div class="field">
+            <label for="nickname">Ник (3–12, латиница/цифры)</label>
+            <input id="nickname" type="text" minlength="3" maxlength="12" pattern="[A-Za-z0-9]{3,12}" value="Player1" />
+          </div>
+          <div class="field fuel-field">
+            <label>Топливо</label>
+            <div class="fuel-bar"><div id="fuel-fill" class="fuel-fill"></div></div>
+          </div>
+        </div>
+        <div class="hud-row">
+          <button id="start-btn" type="button">Начать игру</button>
+          <span class="level-box">Уровень: <span id="level">1</span></span>
+          <span class="score-box">Счёт: <span id="score">0</span></span>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="game-canvas"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-message">Введи ник и нажми «Начать игру».
+Стрелки или WASD — тяга: вверх, влево, вправо.
+Успешная посадка переносит на следующий уровень — топливо каждый раз меньше.</p>
+        </div>
+        <div class="touch-controls" aria-hidden="true">
+          <button type="button" class="thrust-btn" id="thrust-left">◀</button>
+          <button type="button" class="thrust-btn" id="thrust-up">▲</button>
+          <button type="button" class="thrust-btn" id="thrust-right">▶</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard">
+      <button id="leaderboard-toggle" class="leaderboard-toggle" type="button">Таблица лидеров ▾</button>
+      <div id="leaderboard-panel" class="leaderboard-panel">
+        <ol id="leaderboard-list"></ol>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

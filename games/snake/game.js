@@ -1,4 +1,8 @@
 import { startSession, submitScore, fetchLeaderboard } from './api.js';
+import { renderLeaderboardList, initLeaderboardToggle } from '../../core/leaderboardUI.js';
+import { triggerLossFlash } from '../../core/lossFlash.js';
+import { pickRandom } from '../../core/pickRandom.js';
+import { formatEndMessage } from '../../core/messageFormat.js';
 
 const GRID_SIZE = 20;
 const COLS = 24;
@@ -11,6 +15,48 @@ const TICK_STEP_MS = 10;
 
 const NICKNAME_RE = /^[A-Za-z0-9]{3,12}$/;
 
+const TAUNTS = {
+  zero: [
+    'Ты продержался меньше, чем разгружается страница.',
+    'Ужик даже разогреться не успел. Позорище.',
+    '0 очков. Может, попробуешь смотреть на экран?',
+    'Это была скорее демонстрация того, как НЕ надо играть.',
+    'Слился быстрее, чем обычно списывают долги.',
+    'Ноль. Вообще ноль. Даже случайно не получилось.',
+  ],
+  low: [
+    'Пара кусков — и в стену. Ты хоть старался?',
+    'Змейка не виновата, что ты не смотришь по сторонам.',
+    'Скромно. Очень скромно.',
+    'Ты как будто играл вслепую. Может, так и было?',
+    'Ну хоть что-то съел, уже прогресс.',
+    'На аркадном автомате за такое не дают даже жвачку.',
+  ],
+  mid: [
+    'Уже не стыдно, но и хвастаться пока нечем.',
+    'Средне. Прямо как погода за окном.',
+    'Ты почти нашёл свой стиль игры. Почти.',
+    'Норм партия. Без рекордов, но и без позора.',
+    'Уже похоже на игру, а не на несчастный случай.',
+    'Твой ужик заслужил медаль «Участник».',
+  ],
+  high: [
+    'Вот это уже красиво! Стена просто не ожидала.',
+    'Серьёзная заявка на лидерборд.',
+    'Ты вырастил настоящего монстра, прежде чем он умер.',
+    'Респект. Даже стена немного впечатлена.',
+    'Ещё чуть-чуть — и тебя бы заподозрили в читерстве.',
+    'Топовый забег. Ужик гордился бы, если бы не был мёртв.',
+  ],
+};
+
+function pickTaunt(score) {
+  if (score === 0) return pickRandom(TAUNTS.zero);
+  if (score < 50) return pickRandom(TAUNTS.low);
+  if (score < 150) return pickRandom(TAUNTS.mid);
+  return pickRandom(TAUNTS.high);
+}
+
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = COLS * GRID_SIZE;
@@ -22,6 +68,8 @@ const nicknameInput = document.getElementById('nickname');
 const overlay = document.getElementById('overlay');
 const overlayMessage = document.getElementById('overlay-message');
 const leaderboardList = document.getElementById('leaderboard-list');
+const leaderboardToggle = document.getElementById('leaderboard-toggle');
+const leaderboardPanel = document.getElementById('leaderboard-panel');
 
 let state = null;
 
@@ -136,7 +184,8 @@ async function endGame() {
   const finalScore = state.score;
   const sessionId = state.sessionId;
 
-  overlayMessage.textContent = `игра окончена — счёт: ${finalScore}`;
+  triggerLossFlash();
+  overlayMessage.textContent = formatEndMessage(pickTaunt(finalScore), `Счёт: ${finalScore}`);
   overlay.hidden = false;
   startBtn.disabled = false;
 
@@ -177,29 +226,12 @@ async function renderLeaderboard() {
   } catch {
     return;
   }
-  leaderboardList.textContent = '';
-  entries.forEach((entry, i) => {
-    const li = document.createElement('li');
-
-    const rank = document.createElement('span');
-    rank.className = 'rank';
-    rank.textContent = `${i + 1}.`;
-
-    const name = document.createElement('span');
-    name.className = 'nickname';
-    name.textContent = entry.nickname;
-
-    const scoreSpan = document.createElement('span');
-    scoreSpan.className = 'score';
-    scoreSpan.textContent = String(entry.score);
-
-    li.append(rank, name, scoreSpan);
-    leaderboardList.appendChild(li);
-  });
+  renderLeaderboardList(leaderboardList, entries);
 }
 
 state = createState();
 draw();
 startBtn.addEventListener('click', startGame);
 document.addEventListener('keydown', handleKeydown);
+initLeaderboardToggle(leaderboardToggle, leaderboardPanel);
 renderLeaderboard();

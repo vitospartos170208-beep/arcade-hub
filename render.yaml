@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: arcade-hub
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24.18.0
+    healthCheckPath: /

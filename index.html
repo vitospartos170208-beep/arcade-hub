@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Виталий — визитка и Ретро-Аркада</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f0c;
+      --panel: #131a15;
+      --accent: #7ee787;
+      --text: #e6f1e9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    a.card {
+      background: var(--panel);
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 1rem 1.75rem;
+      border-radius: 12px;
+      min-width: 160px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Привет! Это учебные страницы Виталия</h1>
+  <div class="links">
+    <a class="card" href="bizcard/">Визитка</a>
+    <a class="card" href="landing/">Ретро-Аркада (лендинг)</a>
+  </div>
+</body>
+</html>
